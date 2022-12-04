@@ -1,0 +1,39 @@
+
+
+
+
+
+/* Footer */
+
+.footer a{
+    margin-bottom: 15px;
+    display: inline-block;
+    color: #444;
+}
+
+/*  Product List Item*/
+.product-list-item .box .subtitle{
+    margin-bottom: 0;
+}
+
+.product-list-item .box .price{
+    color: #888;
+}
+
+
+/* For Notification */
+
+@keyframes show-toast {
+    0% {bottom: -100%}
+    20% {bottom: 50px}
+    80% {bottom: 50px}
+    100% {bottom: -100%}
+}
+
+.notification.is-toast{
+    position: fixed;
+    bottom: 100%;
+    right: 20px;
+    animation-name: show-toast;
+    animation-duration: 4s;
+}
