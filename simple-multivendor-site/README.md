@@ -1,17 +1,23 @@
-# Django Simple Multi-Vendor Website with Payment
-This is a simple MultiVendor e-commerce website built with Django (Ptyhon) and Stripe is added as payment processor.
+# Digital Product E-commerce
+<h3>
+  <li>Django Simple Multi-Vendor Website with Payment</li>
+ </h3>
+<p>Digital Product E-commerce (DPE) is academic project done by aioont. It is a e-commerce platform to buy and sell digital products.
+
+This is a simple MultiVendor e-commerce website built with Django (Python) and Stripe is added as payment processor.
 
 In this website, Vendors (Stores) can register and add their products.
 
 And Users can visit the product and order by paying with Debit/Credit Card (Stripe is Used).
 
 Then Vendor gets the email notification about the order and should deliver the product to the customer based on the address details.
-
+</p>
 
 
 And if you like this project then ADD a STAR ⭐️  to this project 👆
-
-## Features of this Project
+<h3> 
+<li>Features of this Project</li>
+</h3>
 
 ### A. Admin Users Can
 1. Manage Category (Add, Update, Filter and Delete)
@@ -32,23 +38,9 @@ And if you like this project then ADD a STAR ⭐️  to this project 👆
 3. While Checkout, User should give the address to deliver
 4. Get Email Notification about the confirmation of the order
 
-
-
-## Support Developer
-1. Subscribe & Share my YouTube Channel - https://bit.ly/vijay-thapa-online-courses
-2. Add a Star 🌟  to this 👆 Repository
-
-
-## Donate
-
-**[PayPal](https://bit.ly/support-vijay-thapa)**
-
-**[Buy me a Coffee  ☕️](https://www.buymeacoffee.com/vijaythapa)**
-
-**Donate by wire transfer:** E-Mail at *donate@vijaythapa.com* for wire transfer details. 
-
-
-## How to Install and Run this project?
+<h3> 
+<li> ## How to Install and Run this project? </li>
+</h3> 
 
 ### Pre-Requisites:
 1. Install Git Version Control
@@ -146,10 +138,7 @@ Command for MAC:
 $  python3 manage.py createsuperuser
 ```
 Then Add Email, Username and Password
+</ol>
 
 
-
-## For Sponsor or Projects Enquiry
-1. Email - hi@vijaythapa.com
-2. LinkedIn - [vijaythapa](https://www.linkedin.com/in/vijaythapa "Vijay Thapa on LinkedIn")
-
+Reference : https://github.com/vijaythapa333/simple-multivendor-site
