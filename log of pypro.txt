@@ -39,11 +39,14 @@ RMDIR /S dir_name
 ###
  Setting up our App - video 1:30 - function of each dir
 ###
-@Linux
 
-cd pypro //created
-virtualenv -p python3 env
-source env/bin/activate
+# @Linux
+
+```
+python3 -m venv myenv
+source myenv/bin/activate
+```
+
 django-admin startproject mysite
 python3 manage.py startapp polls
 
