@@ -41,16 +41,21 @@ RMDIR /S dir_name
 ###
 
 # @Linux
-
-```
 python3 -m venv myenv
 source myenv/bin/activate
-```
+
+# How create project and app
 
 django-admin startproject mysite
 python3 manage.py startapp polls
 
+# To views table content in terminal
 
+❯ python3 manage.py shell
+>>> from account.models import User
+>>> users = User.objects.all()
+>>> users
+<QuerySet [<User: admin@gmail.com>, <User: test@gmail.com>]>
 
 
 "
@@ -64,8 +69,7 @@ exit()
 "
 
 //TO RUN SERVER
-
-python3 manage.py runserver     uname=kali,pass = jkl890*(
+python3 manage.py runserver    
 
 //Adding urls
 connect urls.py to views.py in /polls 2-startproject 
@@ -76,6 +80,5 @@ connect urls.py to views.py in /polls 2-startproject
 python3 manage.py runserver 8002
 http://127.0.0.1:8002/polls
 
-# In /polls/urls.py -> What to display
 
 
