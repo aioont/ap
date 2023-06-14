@@ -80,5 +80,8 @@ connect urls.py to views.py in /polls 2-startproject
 python3 manage.py runserver 8002
 http://127.0.0.1:8002/polls
 
+#Port already in use
+lsof -i :port num
+
 
 
