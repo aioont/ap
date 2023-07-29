@@ -83,5 +83,7 @@ http://127.0.0.1:8002/polls
 #Port already in use
 lsof -i :port num
 
+#How create requiremnts.txt from installed packages
+pip freeze > requirements.txt
 
 
