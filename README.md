@@ -95,3 +95,22 @@ lsof -i :port num
 > pip freeze > requirements.txt
 
 
+
+# Wireshark filters
+```
+tcp.analysis
+tcp.port==8000
+ip.src==
+ip.dst==
+http or tcp
+http.request
+http.request.code==200
+tcp.flags.syn
+
+Green => Successfully transmitted
+Red => packet error problem
+Blue => DNS/Other types of query or reponses
+Purple => Related to HTTP (Application oriented protocol)
+Orange => TCP handshake 
+Gray => Conversation protocols 
+```
