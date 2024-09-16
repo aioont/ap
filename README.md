@@ -114,3 +114,11 @@ Purple => Related to HTTP (Application oriented protocol)
 Orange => TCP handshake 
 Gray => Conversation protocols 
 ```
+
+
+Links and Tips 
+
+https://thispersondoesnotexist.com/
+
+Principle of design : CESTALT : https://youtu.be/FryaH599ec0
+Continuation, Closure, Similairity, Proximity, Symmetry 
