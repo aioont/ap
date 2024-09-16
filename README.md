@@ -122,3 +122,11 @@ https://thispersondoesnotexist.com/
 
 Principle of design : CESTALT : https://youtu.be/FryaH599ec0
 Continuation, Closure, Similairity, Proximity, Symmetry 
+
+mention style guidelines when desigining
+
+
+# For database structure 
+`python manage.py dbshell`
+
+> risknox=> \d audits_assignedaudit
