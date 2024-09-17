@@ -130,3 +130,25 @@ mention style guidelines when desigining
 `python manage.py dbshell`
 
 > risknox=> \d audits_assignedaudit
+
+
+AWS Sever Code Apply and Restart
+
+```sudo lsof -i :9091
+
+
+sudo kill -9 <PID>
+
+
+sudo systemctl restart gunicorn
+
+or 
+
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn
+
+
+
+gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug```
+
