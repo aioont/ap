@@ -135,6 +135,7 @@ mention style guidelines when desigining
 AWS Sever Code Apply and Restart
 
 ```sudo lsof -i :9091
+sudo lsof -i :9091
 
 
 sudo kill -9 <PID>
@@ -146,9 +147,10 @@ or
 
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
+sudo systemctl restart nginx
 sudo systemctl status gunicorn
 
 
 
 gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug```
-
+ gunicorn --bind 127.0.0.1:9091 aisec.wsgi
