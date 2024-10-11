@@ -162,5 +162,145 @@ sudo netstat -tuln | grep 9091
 
 ssh -i "RisknoxDemo.pem" ubuntu@ip or name
 
+cd /etc/nginx/sites-available/
+
+(venv) ubuntu@ip-172-31-24-179:/etc/nginx/sites-available$ ls
+default  django
+
+54.179.19.16
+
+(venv) ubuntu@ip-172-31-24-179:/etc/nginx/sites-available$ cat django
+server {
+    listen 80;
+    server_name 18.142.231.238;
+
+    location = /favicon.ico { 
+        access_log off; 
+        log_not_found off; 
+    }
+
+    location /static/ { 
+        alias /home/ubuntu/SECAI/staticfiles/; 
+        autoindex on; 
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://0.0.0.0:9091;
+    }
+}
+
+======================================================================================================
+
+(venv) ubuntu@ip-172-31-24-179:/etc/nginx/sites-available$ cat default 
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
 
 
+
+	root /var/www/html;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+
+		proxy_pass http://0.0.0.0:9091;
+		try_files $uri $uri/ =404;
+	}
+	
+	location /static/ {
+        	alias /home/ubuntu/SECAI/staticfiles/;
+    	}	
+
+
+
+}
+
+
+======================================================================================================
+sudo nano /etc/systemd/system/gunicorn.service
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/SECAI
+Environment="PATH=/home/ubuntu/SECAI/venv/bin"
+Environment="PYTHONPATH=/home/ubuntu/SECAI"
+ExecStart=/home/ubuntu/SECAI/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/SECAI/aisec.sock aisec.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+======================================================================================================
+
+sudo /etc/systemd/system/resolute_compass.service
+
+[Unit]
+Description=gunicorn daemon for ResoluteCompass app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/ResoluteCompass
+Environment="PATH=/home/ubuntu/ResoluteCompass/venv/bin"
+ExecStart=/home/ubuntu/ResoluteCompass/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:9092 resolute_compass.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+======================================================================================================
+
+sudo nano /etc/systemd/system/accord.service
+
+[Unit]
+Description=Accord React App
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/path/to/your/accord/build
+ExecStart=/usr/bin/serve -s . -l 3000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+======================================================================================================
+
+Commands
+
+sudo lsof -i :9091
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn
+ gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
+ gunicorn --bind 127.0.0.1:9091 aisec.wsgi
+ 
+ 
+====================================================================================================== 
+ 
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+
+sudo systemctl start resolute_compass
+sudo systemctl enable resolute_compass
+
+sudo systemctl start accord
+sudo systemctl enable accord
+
+
+sudo systemctl status gunicorn
+sudo systemctl status resolute_compass
+sudo systemctl status accord
+
+======================================================================================================
