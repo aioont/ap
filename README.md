@@ -155,4 +155,12 @@ sudo systemctl status gunicorn
 gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
 gunicorn --bind 127.0.0.1:9091 aisec.wsgi
 gunicorn --workers 3 --bind 0.0.0.0:9092 cyber_insurance.wsgi:application --log-level debug  
+gunicorn --bind 127.0.0.1:9092 cyber_insurance.wsgi
+
+
+sudo netstat -tuln | grep 9091
+
+ssh -i "RisknoxDemo.pem" ubuntu@ip or name
+
+
 
