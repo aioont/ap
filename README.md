@@ -71,6 +71,32 @@ q.save()
 exit()
 ```
 
+# Hosting
+
+Activate environment of project to host
+
+Replace IP from home and /etc/nginx/sites-available
+
+> find ./ -type f -exec sed -i 's/47\.129\.30\.58/54\.179\.55\.8/g' {} +
+
+> sudo systemctl daemon-reload
+
+>sudo systemctl restart gunicorn
+
+> sudo systemctl status gunicorn
+
+> sudo systemctl restart nginx
+
+Trial run
+
+> gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
+
+To run continously
+
+> gunicorn --bind 127.0.0.1:9091 aisec.wsgi
+
+
+
 # TO RUN SERVER
 > python3 manage.py runserver    
 
@@ -283,6 +309,7 @@ sudo lsof -i :9091
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
 sudo systemctl status gunicorn
+
  gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
  gunicorn --bind 127.0.0.1:9091 aisec.wsgi
  
