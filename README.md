@@ -32,6 +32,10 @@ Password: test123
 # Create a specific migration for just the missing tables
 > python manage.py makemigrations --empty quantify
 
+
+python manage.py migrate --plan
+
+
 ```
 git init
 git add <folder1> <folder2> <etc.>
