@@ -1,5 +1,18 @@
-# How to test on win 11
-```
+
+# Django Project Setup Guide
+
+## Table of Contents
+- [Windows 11 Setup](#windows-11-setup)
+- [Linux Setup](#linux-setup)
+- [Project and App Creation](#project-and-app-creation)
+- [Database Operations](#database-operations)
+- [Version Control](#version-control)
+- [Server Management](#server-management)
+- [User Management](#user-management)
+- [Miscellaneous Commands](#miscellaneous-commands)
+
+## Windows 11 Setup
+```cmd
 cmd
 mkdir pypro
 cd pypro
@@ -8,123 +21,157 @@ virtualenv -p python3 env
 source env/bin/activate
 ```
 
-(PS C:\Users\Abhinand\code\pypro\pypro> 'venv\scripts\activate'
-venv\scripts\activate)
-
-> pip install django
-
+For PowerShell:
+```powershell
+env\scripts\activate
+pip install django
 ```
-cd ../..
+
+## Linux Setup
+```bash
+python3 -m venv env
+source env/bin/activate
+```
+
+## Project and App Creation
+```bash
 django-admin startproject mysite
 cd mysite
 python manage.py startapp polls
 python manage.py runserver
 python manage.py createsuperuser
+```
+
+Sample superuser creation:
+```
 Username (leave blank to use 'abhinand'): test
 Email address: aioont8@gmail.com
 Password: test123
 ```
 
-> python manage.py makemigrations polls
+## Database Operations
+```bash
+python manage.py makemigrations polls
+python manage.py migrate
 
-> python manage.py migrate
+# Create empty migration
+python manage.py makemigrations --empty quantify
 
-# Create a specific migration for just the missing tables
-> python manage.py makemigrations --empty quantify
-
-
+# View migration plan
 python manage.py migrate --plan
-
-
 ```
+
+### Shell Operations
+```bash
+python3 manage.py shell
+```
+
+Example queries:
+```python
+from polls.models import Question, Choice
+Question.objects.all()
+q = Question.objects.get(pk=1)
+q.choice_set.create(choice_text="bob", votes=0)
+q.save()
+exit()
+```
+
+## Version Control
+```bash
 git init
 git add <folder1> <folder2> <etc.>
 git commit -m "Your message about the commit"
 git remote add origin https://github.com/yourUsername/yourRepository.git
 git push -u origin master
-git push origin master  
+git push origin master
 
+# Update submodules
+git submodule update --init --recursive
+
+# Remove directory (Windows)
 RMDIR /S dir_name
 ```
 
+## Server Management
+### Hosting Commands
+```bash
+# Find and replace IP
+find ./ -type f -exec sed -i 's/47\.129\.30\.58/54\.179\.55\.8/g' {} +
 
-### ===Linux
-python3 -m venv myenv
-source myenv/bin/activate
+# System commands
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn
+sudo systemctl restart nginx
 
-### ===How create project and app
+# Trial run
+gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
 
-django-admin startproject mysite
-python3 manage.py startapp polls
-
-### ===To views table content in terminal
-```
-❯ python3 manage.py shell
->>> from account.models import User
->>> users = User.objects.all()
->>> users
-<QuerySet [<User: admin@gmail.com>, <User: test@gmail.com>]>
-```
-
-```
-import django
-from polls.models import Question,Choice
-Question.objects.all()
-q = Question.objects.get(pk=1)
-q.choice_set.create(choice_text="bob",votes=0)
-q.save()
-exit()
+# Continuous run
+gunicorn --bind 127.0.0.1:9091 aisec.wsgi
 ```
 
-# Hosting
-
-Activate environment of project to host
-
-Replace IP from home and /etc/nginx/sites-available
-
-> find ./ -type f -exec sed -i 's/47\.129\.30\.58/54\.179\.55\.8/g' {} +
-
-> sudo systemctl daemon-reload
-
->sudo systemctl restart gunicorn
-
-> sudo systemctl status gunicorn
-
-> sudo systemctl restart nginx
-
-Trial run
-
-> gunicorn --workers 3 --bind 0.0.0.0:9091 aisec.wsgi:application --log-level debug
-
-To run continously
-
-> gunicorn --bind 127.0.0.1:9091 aisec.wsgi
-
-
-
-# TO RUN SERVER
-> python3 manage.py runserver    
-
-> Adding urls
-
-connect urls.py to views.py in /polls 2-startproject 
-
-1.link urls.py mysite to new urls.py in polls dir
-
-2. link new urls.py in /polls and views.py    >   path('polls/', include('polls.urls')),
-
-# To run
+### Running Development Server
+```bash
+python3 manage.py runserver
 python3 manage.py runserver 8002
+```
+
+### Port Management
+```bash
+lsof -i :port_num
+```
+
+## User Management
+```python
+from django.contrib.auth import get_user_model
+
+# Get all emails
+User = get_user_model()
+emails = User.objects.values_list('email', flat=True)
+print(list(emails))
+
+# Create or update admin user
+admin_user, created = User.objects.get_or_create(email="admin@gmail.com", defaults={
+    "first_name": "Admin",
+    "last_name": "User",
+    "role": "admin",
+    "is_staff": True,
+    "is_superuser": True
+})
+
+admin_user.is_staff = True
+admin_user.is_superuser = True
+admin_user.role = "admin"
+admin_user.set_password("your_secure_password")
+admin_user.save()
+
+# Reset password
+try:
+    admin_user = User.objects.get(email="admin@gmail.com")
+    admin_user.set_password("new_secure_password")
+    admin_user.save()
+    print("Password reset successfully!")
+except User.DoesNotExist:
+    print("Admin user does not exist!")
+```
+
+## Miscellaneous Commands
+```bash
+# Create requirements.txt
+pip freeze > requirements.txt
+
+# URL configuration note:
+# Connect urls.py to views.py in /polls
+# 1. Link urls.py mysite to new urls.py in polls dir
+# 2. Link new urls.py in /polls and views.py
+# Add to main urls.py: path('polls/', include('polls.urls'))
+```
+
+### Accessing the App
+```
 http://127.0.0.1:8002/polls
-
-# Port already in use
-
-lsof -i :port num
-
-# How create requiremnts.txt from installed packages
-
-> pip freeze > requirements.txt
-
+```
 
 
 # Wireshark filters
