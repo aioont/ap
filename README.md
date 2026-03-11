@@ -547,9 +547,15 @@ c. Then commit and push:
 
 
 
+# Git Advanced 
+
+git add -p index.html (patch level commit with y or n for each change block)
 
 
+Undo conflict
+git merge --abort
 
+git rebase --abort 
 
 
 
