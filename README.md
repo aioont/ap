@@ -383,3 +383,186 @@ sudo systemctl status resolute_compass
 sudo systemctl status accord
 
 ======================================================================================================
+```
+
+
+---
+
+# Git Basics
+
+## Configure Git
+
+```bash
+git config --list
+git config --global user.name "username"
+git config --global user.email "email"
+```
+
+Check configured remote repositories:
+
+```bash
+git remote -v
+```
+
+---
+
+# Branch Merging
+
+## Method 1: Merge using CLI
+
+Compare differences between branches:
+
+```bash
+git diff <branch_name>
+```
+
+Merge the branch into the current branch:
+
+```bash
+git merge <branch_name>
+```
+
+Example:
+
+```bash
+git checkout main
+git merge master
+```
+
+---
+
+## Method 2: Pull Request (PR)
+
+1. Push your branch to the remote repository.
+2. Open the repository on GitHub/GitLab.
+3. Create a **Pull Request (PR)**.
+4. Review changes.
+5. Merge the PR.
+
+---
+
+# Undoing Changes
+
+## Case 1: Staged Changes (Added but Not Committed)
+
+If you used `git add` but haven't committed yet.
+
+Unstage a specific file:
+
+```bash
+git reset <file_name>
+```
+
+Unstage all files:
+
+```bash
+git reset
+```
+
+### You Deleted the File and Ran git add . Only
+File deleted → git add .
+
+a. Unstage the deletion:
+   > git reset HEAD custom_tools.py
+b. Restore the file:
+   > git restore custom_tools.py
+
+---
+
+## Case 2: Committed Changes (Not Pushed Yet)
+
+If you committed but want to undo the last commit.
+
+```bash
+git reset HEAD~1
+```
+
+This removes the last commit but **keeps the changes in your working directory**.
+
+
+### You Deleted the File and Ran git add . + git commit
+File deleted
+git add .
+git commit
+
+a. Method 1 (Recommended)
+   Restore file from previous commit:
+   > git checkout HEAD~1 -- custom_tools.py
+   Then commit again:
+   > git add custom_tools.py
+   > git commit -m "restore deleted file"
+b. Method 2
+   If the commit was only the deletion:
+
+   > git reset HEAD~1
+
+---
+
+## Case 3: Reset to a Specific Commit
+
+If you want to go back to a specific commit:
+
+```bash
+git reset <commit_hash>
+```
+
+---
+
+## Hard Reset (Dangerous)
+
+Reset the repository **and delete all changes after a commit**.
+
+```bash
+git reset --hard <commit_hash>
+```
+
+⚠️ This will:
+
+* Reset the Git history
+* Remove changes from **VS Code / working directory**
+* Permanently delete uncommitted work
+
+Use with caution.
+
+
+### Deleted File Already Pushed to GitHub
+a. Find the commit containing the file:
+   > git log
+b. Restore the file:
+   > git checkout <commit_hash> -- custom_tools.py
+c. Then commit and push:
+   > git add custom_tools.py
+   > git commit -m "restore deleted file"
+   > git push
+---
+
+---
+
+# Notes
+
+* `git diff` → Shows differences between commits/branches.
+* `git reset` → Moves HEAD to another commit.
+* `git reset --hard` → Completely resets code and history.
+* Use Pull Requests for **team collaboration**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
