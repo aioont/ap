@@ -558,6 +558,10 @@ git merge --abort
 git rebase --abort 
 
 
+1. git reset (--soft, --mixed (default) , --hard)  
+git reset --mixed <commit_hash> (on last commit will show last file untracked, when tried to push will throw error. So git push -f will remove file from remote)
+
+2. 
 
 
 
