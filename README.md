@@ -981,5 +981,93 @@ git stash clear
 ---
 
 
+### Git Diff
+
+Changes have to be **unstaged** (no `git add`) so local and remote changes can be compared.
+
+
+---
+
+#### `git diff --staged`
+
+Shows differences between the **staged changes** and the **last commit**.
+
+```bash
+git diff --staged
+```
+
+---
+
+#### `git diff -w`
+
+Ignores **whitespace changes**.
+
+```bash
+git diff -w
+```
+
+Can also be used with staged changes:
+
+```bash
+git diff -w --staged
+```
+
+---
+
+#### `git diff --no-index`
+
+Useful for comparing **similar or different files outside the repository**.
+
+Example:
+
+```bash
+git diff --no-index feature2.txt feature1.txt
+```
+
+(Compare two files)
+
+---
+
+#### Compare Two Commits
+
+```bash
+git diff <commit_hash> <commit_hash>
+```
+
+Shows differences between two commits.
+
+---
+
+#### `git diff --word-diff`
+
+Shows **word-by-word differences** instead of line differences.
+
+```bash
+git diff --word-diff
+```
+
+---
+
+#### `git diff --stat`
+
+Lists **statistics of file changes** (added/removed lines) between local and remote repository changes.
+
+```bash
+git diff --stat
+```
+
+---
+
+#### `git log -p`
+
+Shows **commit history along with actual file changes**.
+
+```bash
+git log -p
+```
+
+
+
+
 
 
