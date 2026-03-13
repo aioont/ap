@@ -547,31 +547,438 @@ c. Then commit and push:
 
 
 
-# Git Advanced 
+---
 
-git add -p index.html (patch level commit with y or n for each change block)
+# Git Advanced Commands Guide
 
+This document explains some **advanced Git commands** useful for managing commits, fixing mistakes, and maintaining a clean repository history.
 
-Undo conflict
+---
+
+# 1. Patch Level Commit
+
+Commit specific changes from a file interactively.
+
+```bash
+git add -p index.html
+```
+
+Git will show each change block and ask:
+
+* `y` → stage the change
+* `n` → skip the change
+
+This allows committing **specific portions of a file instead of the entire file**.
+
+---
+
+# 2. Undo Merge / Rebase Conflicts
+
+If a merge or rebase causes conflicts, you can abort it.
+
+### Abort Merge
+
+```bash
 git merge --abort
+```
 
-git rebase --abort 
+### Abort Rebase
 
+```bash
+git rebase --abort
+```
 
-1. git reset (--soft, --mixed (default) , --hard)  
-git reset --mixed <commit_hash> (on last commit will show last file untracked, when tried to push will throw error. So git push -f will remove file from remote)
+This restores the repository to the **previous state before the operation started**.
 
-2. 
+---
 
+# 3. Git Reset
 
+`git reset` moves the current branch pointer to a previous commit.
 
+### Types of Reset
 
+| Mode                | Effect                     |
+| ------------------- | -------------------------- |
+| `--soft`            | Keeps changes staged       |
+| `--mixed` (default) | Keeps changes but unstaged |
+| `--hard`            | Deletes all changes        |
 
+---
 
+## 3.1 Mixed Reset (Default)
 
+```bash
+git reset --mixed <commit_hash>
+```
 
+* Moves HEAD to the specified commit
+* Files become **unstaged**
+* Changes remain in working directory
 
+If pushed earlier, pushing again may require:
 
+```bash
+git push -f
+```
+
+---
+
+## 3.2 Soft Reset
+
+```bash
+git reset --soft <commit_hash>
+```
+
+* Keeps changes staged
+* Useful for **modifying commit history**
+* Files remain in local repository
+
+---
+
+## 3.3 Hard Reset
+
+```bash
+git reset --hard <commit_hash>
+```
+
+* Resets repository to a specific commit
+* Removes changes from **local repository**
+* If force pushed, it removes history from remote as well
+
+⚠ **Dangerous operation** — history can be permanently lost.
+
+---
+
+# 4. Amend Commit
+
+Instead of creating multiple commits, you can modify the previous commit.
+
+```bash
+git commit --amend
+```
+
+This allows you to:
+
+* Change commit message
+* Add forgotten files
+* Clean up commit history
+
+Example:
+
+```bash
+git add forgotten_file.txt
+git commit --amend
+```
+
+---
+
+# 5. Cherry Pick
+
+Apply a specific commit from one branch to another.
+
+```bash
+git cherry-pick <commit_hash>
+```
+
+### Example
+
+Branch 1:
+
+```
+feature-1.txt
+feature-2.txt
+feature-4.txt
+```
+
+Branch 2:
+
+```
+feature-1.txt
+feature-2.txt
+feature-3.txt
+```
+
+If Branch 2 needs a commit from Branch 1:
+
+```bash
+git cherry-pick <commit_hash>
+```
+
+Useful when **developers work in parallel and need selected changes without merging entire branches**.
+
+---
+
+# 6. Interactive Rebase
+
+Interactive rebase helps clean commit history.
+
+```bash
+git rebase -i <commit_hash>
+```
+
+Example:
+
+```
+commit 6 (389...)
+commit 5 (d40...)
+commit 4 (536...)
+commit 3
+```
+
+Command:
+
+```bash
+git rebase -i 536...
+```
+
+Git opens an editor to modify commits.
+
+---
+
+## 6.1 Squash Commits
+
+Combine multiple commits into one.
+
+Example:
+
+```
+pick 389... commit 6
+squash d40... commit 5
+```
+
+Result:
+
+```
+Merged commit for feature 5 & feature 6
+```
+
+Old commits are removed after pushing.
+
+---
+
+## 6.2 Drop Commit
+
+Remove a commit completely.
+
+```bash
+git rebase -i
+```
+
+Change:
+
+```
+pick <commit_hash>
+```
+
+to
+
+```
+drop <commit_hash>
+```
+
+---
+
+````markdown
+### c. Bisect
+
+`git bisect` - identify the git commit which introduced the bug in the repository.
+
+```bash
+git bisect start
+````
+
+Mention good and bad commit.
+
+```bash
+grep "BUG!" *.txt
+```
+
+Output:
+
+```
+feature11.txt: This feature contains a BUG
+```
+
+```bash
+git bisect bad
+```
+
+Output:
+
+```
+status: waiting for good commit, bad commit known
+```
+
+```bash
+git bisect good <commit_hash>
+```
+
+Using binary search, the bisect pointer moves to the middle of the bad and good commit.
+So let's say the pointer is on commit **9** and the bug is in **11th commit**.
+Again run git bisect and mark as good commit.
+
+```bash
+git bisect good <9th_commit_hash>
+```
+
+Then again:
+
+```bash
+grep "BUG!" *.txt
+```
+
+This will return the result.
+
+```bash
+git bisect bad <13th_commit_id>
+```
+
+Then again (pointer on **11**), check whether feature 11 has bug or not.
+
+```bash
+grep "BUG!" *.txt
+```
+
+```bash
+git bisect bad <11th_commit_id>
+```
+
+Then again:
+
+```bash
+grep "BUG!" *.txt
+```
+
+Then **10th commit is good**, which does not return anything.
+So we set it as good.
+
+```bash
+git bisect good <10th_commit_id>
+```
+
+```bash
+git bisect log
+```
+
+---
+
+### Git Stash
+
+`git stash`
+
+Hold changes for a moment, after pull re-add.
+
+Example branch:
+
+```
+test-branch-1
+change1.txt
+change2.txt
+```
+
+Change 1 to stash.
+
+---
+
+#### a. `git stash -u` (untracked file)
+
+File will be stashed including untracked files.
+
+Show stash list:
+
+```bash
+git stash list
+```
+
+Example output:
+
+```
+stash@{0}: identifier
+```
+
+Now stash `change2.txt`.
+
+```bash
+touch change2.txt
+git stash -u
+git stash list
+```
+
+Then pop:
+
+```bash
+git status
+```
+
+Output will say **nothing to commit**.
+
+```bash
+git stash pop
+```
+
+(`change2.txt` is pulled from stash)
+
+Check stash list:
+
+```bash
+git stash list
+```
+
+Only `stash@{0}` will be there.
+
+```bash
+git stash pop
+```
+
+(`change1.txt` is pulled from stash)
+
+---
+
+#### b. `git stash` (for tracked file)
+
+```bash
+git add change1.txt
+git stash
+git stash pop
+```
+
+When files are in stash list:
+
+* `git stash pop` → **LIFO (Last In First Out)**
+* `git stash apply` → popped but still item will remain in stash list
+
+```
+
+## 8.5 Drop Stash
+
+Remove latest stash entry.
+
+```bash
+git stash drop
+```
+
+---
+
+## 8.6 Show Stash Changes
+
+```bash
+git stash show stash@{0}
+```
+
+Displays file changes.
+
+---
+
+## 8.7 Clear All Stash
+
+```bash
+git stash clear
+```
+
+⚠ **Dangerous — cannot recover stash once cleared.**
+
+---
 
 
 
