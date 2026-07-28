@@ -1066,8 +1066,9 @@ Shows **commit history along with actual file changes**.
 git log -p
 ```
 
-
-
+pip install uv
+uv init
+uv add -r requirements.txt
 
 
 
