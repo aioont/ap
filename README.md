@@ -1066,9 +1066,51 @@ Shows **commit history along with actual file changes**.
 git log -p
 ```
 
+
+
+
+
+# UV Project Setup
+
+```bash
+# Install UV (fast Python package & project manager)
 pip install uv
+
+# Create a new UV project in the current directory
 uv init
+
+# Create and activate a virtual environment
+uv venv
+
+# Install dependencies from requirements.txt
 uv add -r requirements.txt
 
+# Sync project dependencies (recommended when using pyproject.toml + uv.lock)
+uv sync
+
+# Add a new package
+uv add <package_name>
+
+# Add a development dependency
+uv add --dev <package_name>
+
+# Remove a package
+uv remove <package_name>
+
+# Update all dependencies
+uv lock --upgrade
+
+# Run a Python script within the project environment
+uv run python main.py
+
+# Run any command inside the UV environment
+uv run <command>
+
+# Freeze installed packages (pip-compatible)
+uv pip freeze
+
+# List installed packages
+uv pip list
+```
 
 
