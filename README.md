@@ -1066,6 +1066,7 @@ Shows **commit history along with actual file changes**.
 git log -p
 ```
 
+####  `git rev-parse main`
 
 
 
